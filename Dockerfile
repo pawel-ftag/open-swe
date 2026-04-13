@@ -74,4 +74,4 @@ RUN echo "=== Installed versions ===" \
 
 COPY . .
 RUN uv sync --all-extras
-CMD ["uv", "run", "langgraph", "up", "--port", "8080"]
+CMD ["uv", "run", "langgraph", "dev", "--no-browser", "--port", "8080"]
