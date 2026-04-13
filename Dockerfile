@@ -71,3 +71,8 @@ RUN echo "=== Installed versions ===" \
     && go version \
     && docker --version \
     && git --version
+
+echo '' >> ~/open-swe/Dockerfile
+echo 'COPY . .' >> ~/open-swe/Dockerfile
+echo 'RUN uv sync --all-extras' >> ~/open-swe/Dockerfile
+echo 'CMD ["uv", "run", "langgraph", "up", "--host", "0.0.0.0", "--port", "8080"]' >> ~/open-swe/Dockerfile
