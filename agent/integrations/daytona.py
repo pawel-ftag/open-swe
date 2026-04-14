@@ -7,6 +7,10 @@ def create_daytona_sandbox(sandbox_id: str | None = None):
     api_key = os.getenv("DAYTONA_API_KEY")
     if not api_key:
         raise ValueError("DAYTONA_API_KEY environment variable is required")
+    params = CreateSandboxFromSnapshotParams(
+        snapshot=snapshot,
+        auto_stop_interval=60,  # 60 min max per task
+    )
 
     snapshot = os.getenv("DEFAULT_SANDBOX_TEMPLATE_NAME", "daytonaio/sandbox:0.6.0")
     
