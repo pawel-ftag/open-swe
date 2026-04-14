@@ -25,9 +25,9 @@ def create_daytona_sandbox(sandbox_id: str | None = None):
     return DaytonaSandbox(sandbox=sandbox)
 
 
-def configure_daytona_git_credentials(sandbox: DaytonaSandbox, github_token: str) -> None:
+async def configure_daytona_git_credentials(sandbox: DaytonaSandbox, github_token: str) -> None:
     """Inject GitHub token into the Daytona sandbox for git operations."""
-    sandbox.execute(
+    await sandbox.aexecute(
         f'git config --global credential.helper store && '
         f'echo "https://x-access-token:{github_token}@github.com" > /home/daytona/.git-credentials && '
         f'git config --global user.email "bot@formattingtool.ch" && '

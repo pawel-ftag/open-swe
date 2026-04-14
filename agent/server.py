@@ -93,7 +93,7 @@ async def _create_sandbox_with_proxy() -> SandboxBackendProtocol:
     elif sandbox_type == "daytona":
         installation_token = await get_github_app_installation_token()
         if installation_token:
-            await asyncio.to_thread(configure_daytona_git_credentials, sandbox_backend, installation_token)
+            await configure_daytona_git_credentials(sandbox_backend, installation_token)
         else:
             logger.warning("No installation token available for Daytona git credentials")
 
