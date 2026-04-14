@@ -152,7 +152,7 @@ async def check_or_recreate_sandbox(
     """
     try:
         await asyncio.to_thread(sandbox_backend.execute, "echo ok")
-    except SandboxClientError:
+    except (SandboxClientError, Exception):
         logger.warning(
             "Cached sandbox is no longer reachable for thread %s, recreating",
             thread_id,
