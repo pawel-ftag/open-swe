@@ -23,3 +23,13 @@ def create_daytona_sandbox(sandbox_id: str | None = None):
         sandbox = daytona.create(params=params)
 
     return DaytonaSandbox(sandbox=sandbox)
+
+
+def configure_daytona_git_credentials(sandbox: DaytonaSandbox, github_token: str) -> None:
+    """Inject GitHub token into the Daytona sandbox for git operations."""
+    sandbox.run_command(
+        f'git config --global credential.helper store && '
+        f'echo "https://x-access-token:{github_token}@github.com" > /home/daytona/.git-credentials && '
+        f'git config --global user.email "bot@formattingtool.ch" && '
+        f'git config --global user.name "open-swe-bot"'
+    )

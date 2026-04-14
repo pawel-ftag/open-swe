@@ -26,6 +26,8 @@ from deepagents.backends.protocol import SandboxBackendProtocol
 from langsmith.sandbox import SandboxClientError
 
 from .integrations.langsmith import _configure_github_proxy
+from .integrations.daytona import configure_daytona_git_credentials
+from .integrations.daytona import configure_daytona_git_credentials
 from .middleware import (
     ToolErrorMiddleware,
     check_message_queue_before_model,
@@ -88,6 +90,12 @@ async def _create_sandbox_with_proxy() -> SandboxBackendProtocol:
             logger.error(msg)
             raise ValueError(msg)
         await asyncio.to_thread(_configure_github_proxy, sandbox_backend.id, installation_token)
+    elif sandbox_type == "daytona":
+        installation_token = await get_github_app_installation_token()
+        if installation_token:
+            await asyncio.to_thread(configure_daytona_git_credentials, sandbox_backend, installation_token)
+        else:
+            logger.warning("No installation token available for Daytona git credentials")
 
     return sandbox_backend
 
