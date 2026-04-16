@@ -42,7 +42,6 @@ from ..utils.github_token import get_github_token
 from ..utils.sandbox_paths import aresolve_repo_dir
 from ..utils.sandbox_state import get_sandbox_backend
 from ..integrations.daytona import delete_daytona_sandbox
-from ..integrations.daytona import delete_daytona_sandbox
 
 logger = logging.getLogger(__name__)
 
