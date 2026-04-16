@@ -41,6 +41,7 @@ from ..utils.github_app import get_github_app_installation_token
 from ..utils.github_token import get_github_token
 from ..utils.sandbox_paths import aresolve_repo_dir
 from ..utils.sandbox_state import get_sandbox_backend
+from ..integrations.daytona import delete_daytona_sandbox
 
 logger = logging.getLogger(__name__)
 
@@ -176,6 +177,17 @@ async def open_pr_if_needed(
         )
 
         logger.info("After-agent middleware completed successfully")
+
+        # Clean up Daytona sandbox after successful run
+        try:
+            sandbox_id = configurable.get("sandbox_id")
+            if sandbox_id:
+                await asyncio.to_thread(delete_daytona_sandbox, sandbox_id)
+                logger.info("Deleted Daytona sandbox %s after run completion", sandbox_id)
+            else:
+                logger.debug("No sandbox_id in configurable, skipping sandbox cleanup")
+        except Exception:
+            logger.warning("Failed to delete Daytona sandbox, will be cleaned up by auto-stop")
 
     except Exception:
         logger.exception("Error in after-agent middleware")
