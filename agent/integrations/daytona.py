@@ -35,3 +35,16 @@ async def configure_daytona_git_credentials(sandbox: DaytonaSandbox, github_toke
         logger.info("Git credentials injected into Daytona sandbox")
     except Exception as e:
         logger.error(f"Failed to inject git credentials: {e}")
+
+
+def delete_daytona_sandbox(sandbox_id: str) -> None:
+    """Delete a Daytona sandbox to free memory quota."""
+    import logging
+    logger = logging.getLogger(__name__)
+    try:
+        api_key = os.getenv("DAYTONA_API_KEY")
+        daytona = Daytona(config=DaytonaConfig(api_key=api_key))
+        daytona.delete(sandbox_id)
+        logger.info("Deleted Daytona sandbox %s", sandbox_id)
+    except Exception as e:
+        logger.warning("Failed to delete Daytona sandbox %s: %s", sandbox_id, e)
