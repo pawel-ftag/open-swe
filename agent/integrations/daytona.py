@@ -19,6 +19,7 @@ def create_daytona_sandbox(sandbox_id: str | None = None):
         params = CreateSandboxFromSnapshotParams(
             snapshot=snapshot_name,
             auto_stop_interval=60,
+            auto_delete_interval=0,
         )
         sandbox = daytona.create(params=params)
 
